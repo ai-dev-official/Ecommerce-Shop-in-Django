@@ -1,0 +1,55 @@
+{% extends 'base.html' %}
+{% block title %}Wish List{% endblock %}
+{% block content %}
+{% load crispy_forms_tags %}
+
+<section class="accessory section bd-container" id="accessory">
+  <div class="category__container   main__container container__grid">
+    <main role="main" class="container-fluid m-5">
+     
+          <div class="col-12">
+              <h1 class="h2">My Wishlist</h1>
+          </div>
+          <div class="col-12 d-flex justify-content-between">
+              <div>Manage your <b>Wishlist</b></div>
+              {% comment %} <div><a href="#">Update your wishlist</a></div> {% endcomment %}
+          </div>
+          <hr />
+ 
+  
+       
+          <div class="w-100 mb-3">
+              {% if wishlist %}
+              {% for product in wishlist %}
+  
+                  <div class="wishlist__card">
+                      <div>
+                          <img src="{{product.image.url}}" />
+                      </div>
+                      <div>
+                          <div class="card-body">
+                              <h5 class="card-title">{{product.name}}</h5>
+                              <p class="card-text">{{product.price}}</p>
+                              <p class="card-text"><small>{{product.category}}</small></p>
+                          </div>
+                      </div>
+  
+                      <div>
+                          <button type="button" class="alt__button"><a href="{% url 'accounts:user_wishlist' product.id %}">Remove</a></button>
+                      </div>
+                  </div>
+      
+  
+              {% endfor %}
+              {% else %}
+              <p class="card-text">No products have been added to your wishlist yet</p>
+              {% endif %}
+      </div>
+  
+    </main>
+  
+  </div>
+  </section>
+
+
+  {% endblock %}

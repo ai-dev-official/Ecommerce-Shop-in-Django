@@ -1,0 +1,66 @@
+{% load static %}
+
+<div class="newsletter-wrapper" id="newsletter-wrapper">
+    <h2 class="subscribe__title">Subscribe to our newsletter</h2>
+    <form v-on:submit.prevent="onSubmit">
+        <div class="subscribe__direction">
+            <input type="email" v-model="email" name="email" class="subscribe__input" placeholder="Your e-mail address...">
+            <button class="main__button" data-toggle="modal" data-target="#myModal" onclick="shoot();">Subscribe</button>
+        </div>
+    </form>
+
+    
+    <div class="box-modal modal" id="myModal" v-if="showSuccess">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <img src="{% static './images/tick.png' %}" alt="">
+                <h2 class="services__modal-title">
+                    Thank You!
+                </h2>
+                <p>Your detail has been successfully <br>
+                    submitted!</p>
+                <a type="button" class="btn" data-dismiss="modal">OK</a>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var newsletterapp = new Vue({
+        el: '#newsletter-wrapper',
+        data () {
+            return {
+                email: '',
+                showSuccess: false
+            }
+        },
+        methods: {
+            onSubmit() {
+                console.log('onSubmit')
+
+                fetch('/api/add_subscriber/', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'X-CSRFToken': '{{ csrf_token }}'
+                        },
+                        body: JSON.stringify({'email': this.email})
+                    })
+                    .then((response) => {
+                        return response.json()
+                    })
+                    .then((data) => {
+                        console.log(data)
+
+                        this.showSuccess = true
+                        this.email = ''
+                    })
+                    .catch(function(error) {
+                        this.showSuccess = false
+                        console.log('Error:', error);
+                    });
+            }
+        }
+    })
+</script>

@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+<section class="accessory section bd-container" id="accessory">
+    <div class="category__container   main__container container__grid">
+        <h2 class="section-title">Registration Form</h2>
+        <div class="main__form">
+            
+            <form method="POST" enctype="multipart/form-data" class="signup_form mr-2 ml-2">
+                {% csrf_token %}
+                <fieldset>
+                  <div class="form-row">
+                    <div class="form-group col-md-6 mb-0">
+                      {{ form.first_name | as_crispy_field }}
+                    </div>
+                    <div class="form-group col-md-6 mb-0">
+                      {{ form.last_name | as_crispy_field }}
+                    </div>
+                  </div>
+                    <div class="form-row">
+                        <div class="form-group col-md-12 mb-0">
+                        {{ form.username | as_crispy_field }}
+                      </div>
+                    </div>
+                  <div class="form-row">
+                  
+                      <div class="form-group col-md-12 mb-0">
+                        {{ form.email | as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="form-row">
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.password1 | as_crispy_field }}
+                      </div>
+                      <div class="form-group col-md-6 mb-0">
+                        {{ form.password2 | as_crispy_field }}
+                      </div>
+                    </div>
+                    <div class="form-row">
+                    <button type="submit" class="main__button col-md-12 mb-0">Sign Up</button>
+                      <div class="text-center">
+                          <p>Already a Vendor? <a href="{% url 'login' %}">Login In</a></p>
+                      </div>
+                    </div>
+                </fieldset>
+                
+              </form> 
+
+        </div>
+        
+      </div>
+    
+    </section>
+
+{% endblock %}

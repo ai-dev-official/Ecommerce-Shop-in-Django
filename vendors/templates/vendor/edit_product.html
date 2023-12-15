@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+
+{% block title %}Edit product | {% endblock %}
+
+{% block content %}
+
+<section class="accessory section bd-container" id="accessory">
+    <div class="category__container   main__container container__grid">
+        <h1 class="title">Edit product</h1>
+
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+    
+            {{ form.as_p }}
+    
+            <div class="field">
+                <div class="control">
+                    <button class="button is-dark is-uppercase">Save changes</button>
+                </div>
+            </div>
+        </form>
+    
+        <hr>
+    
+        <h2 class="subtitle">Images</h2>
+    
+        <form method="post" action="." enctype="multipart/form-data">
+            {% csrf_token %}
+    
+            {{ image_form.as_p }}
+    
+            <div class="field">
+                <div class="control">
+                    <button class="button is-dark is-uppercase">Add image</button>
+                </div>
+            </div>
+        </form>
+    </div>
+    </section>
+
+   
+{% endblock %}

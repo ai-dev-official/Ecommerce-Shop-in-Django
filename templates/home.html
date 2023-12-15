@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+
+{% block title %}FULL.STOP - The Clothing Shop{% endblock %}
+
+{% block content %}
+
+<!--========== HOME ==========-->
+<section class="home" id="home">
+   
+    <div class="home__rows main__container ">
+        <form class="search__sidebar", action="{% url 'search_app:searchResult' %}" method="get">
+            <input
+              type="search"
+              class="subscribe__input"
+              me-2
+              placeholder="Search products..."
+              aria-label="Search"
+              name="q"
+            />
+            <button class="main__button" type="submit">Search</button>
+          </form>
+
+          <div class="home__container">
+            <div class="home__img">
+                <img src="./static/images/trolly.webp" alt="">
+            </div>
+    
+            <div class="home__data">
+                <h1 class="home__title">All things clothing and Accessories</h1>
+                <p class="home__description">Shop quality wears for various occassion. Choose from various categories of
+                    high quality Italian wears and accessories.</p>
+                <a href="./shop_products" class="main__button">Shop Now &#8594;</a>
+            </div>
+        </div>
+
+    </div>
+   
+</section>
+
+
+<!--========== CATEGORY ==========-->
+<section class=" section">
+    <div class="category__container   main__container container__grid">
+        <div class="category__content">
+            <h4 class="section-title-center category__title">Categories</h4>
+            <div class="category_box">
+                <div class="cats">
+                    <img src="./static/images/men.webp" alt="">
+                    <h3><a href="./men/" class="main__button button-link">Men</a></h3>
+                </div>
+                <div class="cats">
+                    <img src="./static/images/woman.webp" alt="">
+                    <h3><a href="./women/" class="main__button button-link">Women</a></h3>
+                </div>
+                <div class="cats">
+                    <img src="./static/images/glasses.webp" alt="">
+                    <h3><a href="./accessories/" class="main__button button-link">Accessories</a></h3>
+                </div>
+                <div class="cats">
+                    <img src="./static/images/boy.webp" alt="">
+                    <h3><a href="./boys/" class="main__button button-link">Boys</a></h3>
+                </div>
+                <div class="cats">
+                    <img src="./static/images/girl.webp" alt="">
+                    <h3><a href="./girls/" class="main__button button-link">Girls</a></h3>
+                </div>
+                <div class="cats">
+                    <img src="./static/images/kids.webp" alt="">
+                    <h3><a href="./Kids/" class="main__button button-link">Kids</a></h3>
+                </div>
+            </div>
+        </div>
+</section>
+
+<!--========== FEATURED CATEGORIES ==========-->
+<section class="section main__container" id="featured">
+    <div class="section_heading">
+        <h4 class="section-title">Featured Categories</h4>
+        <h5 class="view_all"><a href="./shop_products">See All<span><i class='bx bx-chevron-right'></i></span></a></h5>
+    </div>
+    <div class="featured__container container__grid">
+        {% for category in featured_categories %}
+        <div class="featured__data">
+            {% if category.image %}
+            <img src="{{ category.image.url }}" alt="" class="featured__img">
+            {% endif %}
+            <h3 class="featured__title">{{ category.name }}</h3>
+
+            <a href="./shop_products" class="main__button button-link">Shop Now &#8594;</a>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ========== EXPLORE  ========== -->
+<section class="subscribe section">
+    <div class="explore_container main__container container__grid">
+        <div class="explore__content">
+            <h2 class="section-title-center subscribe__title">Explore High Quality At Unbeatable<br> Prices And Fast
+                delivery</h2>
+            <a href="./shop_products" class="main__button">Shop Now &#8594;</a>
+        </div>
+    </div>
+</section>
+
+<!--========== ACCESSORIES ==========-->
+<section class="accessory section main__container" id="accessory">
+
+    <div class="section_heading">
+        <h4 class="section-title">Featured Products</h4>
+        <h5 class="view_all"><a href="./shop_products">See All<span><i class='bx bx-chevron-right'></i></span></a></h5>
+    </div>
+
+    {% with products as list_products %}
+    {% include 'parts/product_list.html' %}
+    {% endwith %}
+</section>
+
+<!--========== EXPLORE ==========-->
+<section class=" section">
+    <div class="subscribe__container explore__container main__container container__grid">
+        <div class="explore__content">
+            <h2 class="section-title-center subscribe__title"> Sell Online with Admin page fully <br>customized  for you and pay a token<br> for sales</h2>
+            <a href="{% url 'vendors:vendor_admin' %}" class="main__button">Shop Now &#8594;</a>
+        </div>
+
+        <div class="explore">
+
+        </div>
+    </div>
+</section>
+
+<section class="accessory section main__container" id="accessory">
+    <div class="section_heading">
+        <h4 class="section-title">Popular Products</h4>
+        <h5 class="view_all"><a href="./shop_products">See All<span><i class='bx bx-chevron-right'></i></span></a></h5>
+    </div>
+    {% with popular_products as list_products %}
+    {% include 'parts/product_list.html' %}
+    {% endwith %}
+</section>
+
+<!--========== SUBSCRIBE ==========-->
+<section class="subscribe section">
+    <div class="subscribe__container main__container container__grid">
+        <div class="explore__content ">
+            <h2 class="section-title-center subscribe__title">Be among the first to know about new arrivals</h2>
+          
+                {% include 'parts/newsletter.html' %}
+        </div>
+    </div>
+</section>
+
+
+<section class="accessory section main__container" id="accessory">
+    <div class="section_heading">
+        <h4 class="section-title">Recently Viewed Products</h4>
+        <h5 class="view_all"><a href="./shop_products">See All<span><i class='bx bx-chevron-right'></i></span></a></h5>
+    </div>
+
+    {% with recently_viewed_products as list_products %}
+    {% include 'parts/product_list.html' %}
+    {% endwith %}
+</section>
+
+
+
+
+{% endblock content %}

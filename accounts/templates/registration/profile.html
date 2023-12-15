@@ -1,0 +1,46 @@
+
+{% extends 'base.html' %}
+{% block title %}Contact Us{% endblock title %}
+
+{% block content %}
+{% load crispy_forms_tags %}
+
+
+
+    
+  
+
+    <section class="accessory section bd-container" id="accessory">
+        <div class="category__container   main__container container__grid">
+            <h2 class="section-title">User Profile</h2>
+            <div class="row">  
+                <div class="col-md-7 blog-main m-5 mtop">
+                    
+                        <div class="top-container">
+                            {% if user.profile.image %}  
+                            <div class="p-image"><img src= "{{ user.profile.image.url }}"/></div>
+                            {% else %}
+                            <div class="p-image"><img src="./static/images/user.png" alt="profile avater"></div>
+                            {% endif %}
+                            <div class="ml-3">
+                                <h5 class="name">{{ user.profile }}</h5>
+                                <p class="mail">{{ user.first_name }} {{ user.last_name }}</p>
+                                <p class="mail">{{ user.email }}</p>
+                            </div>
+                            <div class="m-3">
+                                <a href="{% url 'order:order_history' %}" class="alt__button">My Orders</a>
+                            </div>
+                            <div class="m-3">
+                                <a href="{% url 'accounts:wishlist' %}" class="alt__button">My Wishlist</a>
+                            </div>
+
+                            
+                        </div>
+                    </div>     
+                </div> 
+          </div>
+         
+        </section>
+
+{% endblock content %}
+

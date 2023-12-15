@@ -1,0 +1,337 @@
+{% extends 'base.html' %}
+{% block name %}{{ product.name }} | {% endblock %}
+{% block title %}Product Page {% endblock %}
+{% block content %}
+
+<!--========== BREADCRUMBS ==========-->
+<section class="section main__container">
+<div>
+    <ul class="breadcrumb">
+        <li><a href="/">Home</a></li><span>&#x22D9;</span>
+        {% if product.category.parent %}
+        <li><a href="{% url 'category_detail' product.category.parent.slug %}">{{product.category.parent.name}} <span>&#x22D9;</span></a>
+        </li>
+        {% endif %}
+        <li><a href="{% url 'category_detail' product.category.slug %}">{{ product.category.name }} <span>&#x22D9;</span></a></li>
+        <li class="is-active"><a
+                href="{% url 'product_detail' product.category.slug product.slug %}">{{product.name}}</a></li>
+    </ul>
+</div>
+</section>
+<!--========== SINGLE PRODUCT ==========-->
+
+<section class="product__section main__container">
+    <div class="product__card">
+       
+        <div class="product-imgs">
+            <div class="img-display">
+                <div class="img-showcase">
+                   
+                   
+                    <div class="gradients">
+                        <div class="gradient second" color="yellow"></div>
+                        <div class="gradient" color="red"></div>
+                        <div class="gradient" color="green"></div>
+                        <div class="gradient" color="orange"></div>
+                        <div class="gradient" color="black"></div>
+                    </div> 
+                    <img src="{{product.image.url}}" class="product__img show" color="yellow"/>
+                    <img src="{{product.image1.url}}" class="product__img" color="red"/>
+                    <img src="{{product.image2.url}}" class="product__img" color="green"/>
+                    <img src="{{product.image3.url}}" class="product__img" color="orange"/>
+                    <img src="{{product.image3.url}}" class="product__img" color="black"/>
+                    <h1 class="product__category">{{ product.category }}</h1>
+                    <a href="https://www.facebook.com" target="_blank"  class="product__share"><i class="fas fa-share-alt"></i></a>
+                    
+                    
+                </div>
+                
+            </div>
+            
+            <div class="img-select">
+                <div class="img-item">
+                    <a href="{{product.get_absolute_url}}" data-id="1">
+                        <img id="img-item1" src="{{product.image.url}}" />
+                    </a>
+                </div>
+                <div class="img-item">
+                    <a href="{{product.get_absolute_url}}" data-id="2">
+                        <img id="img-item2" src="{{product.image1.url}}" />
+                    </a>
+                </div>
+                <div class="img-item">
+                    <a href="{{product.get_absolute_url}}" data-id="3">
+                        <img id="img-item3" src="{{product.image2.url}}" />
+                    </a>
+                </div>
+                <div class="img-item">
+                    <a href="{{product.get_absolute_url}}" data-id="4">
+                        <img id="img-item4" src="{{product.image1.url}}" />
+                    </a>
+                </div>
+            </div>
+            
+        </div>
+        <!-- card right -->
+
+        <div class="product-content">
+           
+            <span>{{ product.category }}</span>
+                
+            <h2 class="product-title">
+                {{ product.name }}
+            </h2>
+
+            <div class="product-price">
+                <h1 class="new-price">€{{ product.price }}</p> 
+            </div>
+            
+            <div class="color-container">
+                <h3 class="title">Color: <small id="select__color"> yellow</small></h3>
+                <div class="colors">
+                    <span class="color active" primary="#FA8406" color="yellow"></span>
+                    <span class="color" primary="#f84848" color="red"></span>
+                    <span class="color" primary="#29b864" color="green"></span>
+                    <span class="color" primary="#ff5521" color="orange"></span>
+                    <span class="color" primary="#444" color="black"></span>
+                </div>
+            </div>
+    
+
+            <div class="size-container">
+                <h3 class="title">Size: <small id="selected__size">{{ product.size }}</small></h3>
+                <div class="sizes">
+                    <span class="size">XS</span>
+                    <span class="size">S</span>
+                    <span class="size active">M</span>
+                    <span class="size">L</span>
+                    <span class="size">XL</span>
+                </div>
+            </div>
+        <div class="product__stock">
+            <h3 class="title">Stock:</h3><h5 id="product__stock">{{ product.stock }}</h5>
+        </div>
+            <div>
+                <div class="product__quantity">
+                    <h3 class="title">Quantity: <small id="selected__quantity">{{ cart_item.quantity }}</small></h3>
+                    <div id="product__quantity">
+                        <button id="minus">−</button>
+                        <span id="num__input">0</span>
+                        <button id="plus">+</button>
+                    </div>
+                </div>
+                {% if product.in_cart %}
+                <p>Already in cart!</p>
+                {% else %}
+                {% if product.stock > 0 %}
+                </div>
+                <div>
+
+                    {% if user.is_authenticated %}
+                    <a class="main__button product__button"
+                        href="{% url 'cart:add_cart' product.id %} ">Add to Cart</a>
+                    <br>
+                    <a class="main__button__alt" href="#">Checkout</a>
+                    {% else %}
+                    <a class="main__button product__button" href="{% url 'login' %}">Add to Cart</a>
+                    {% endif %}
+                </div>
+
+
+                {% else %}
+                <p>The product is out of stock!</p>
+                {% endif %}
+                {% endif %}
+
+            </div>
+            
+        </div>
+    </div>
+</section>
+
+<section class="section  main__container">
+</section>
+<!--========== PRODUCT DETAILS ==========-->
+<section class="section__product_detail  main__container">
+    <h2 class="section-title-product">Product Details</h2>
+    <div class="main__container product__content__grid container__grid">
+            {% if product.description %}
+            <p>{{ product.description }}</p>
+            {% endif %}
+    </div>
+</section>
+
+<!--========== RELATED PRODUCT ==========-->
+<section class="section__product_detail main__container">
+    <h2 class="section-title-product">Related products</h2>
+
+    {% with related_products as list_products %}
+    {% include 'parts/product_list.html' %}
+    {% endwith %}
+
+</section>
+
+
+<!--========== PRODUCT REVIEWS ==========-->
+
+<section class="section__product_detail product__details__container main__container">
+    <h2 class="section-title-product">Reviews ({{ product.review.all.count }})</h2>
+    <div class="ratings__container reviews__container__grid main__container">
+        <div class="ratings__content">
+            {% for review in product.review.all %}
+            <div class="reviews__ratings__body">
+                <div class="rating__user__img">
+                    {% if user.profile.image %}
+                    <img src="{{ user.profile.image.url }}" alt="user photo">
+                    {% else %}
+                    <i class="bx bx-user-circle bx__icon"></i>
+                    {% endif %}
+                </div>
+                <div class="ratings__details">
+                    <div class="ratings__metrics">
+                        <a>{{ review.user.username }}</a><i class="fa fa-clock"></i> <span>{{ review.date_added|date:"Y-m-d H:i:s" }}</span>
+                    </div>
+                    <div class="rating__user__stars">     
+                        {% if review.stars > 4 %}
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+
+                        {% elif review.stars > 3 %}
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+
+                        {% elif review.stars > 2 %}
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+
+                        {% elif review.stars > 1 %}
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+
+                        {% elif review.stars > 0 %}
+                        <i class="fa fa-star icon rating_star" style="float:right;"></i>
+                        {% endif %}
+                    </div> 
+                    <div class="review__body">
+                        <p> {{ review.comment }} </p>
+                    </div>
+                </div>
+                
+            </div>  
+            
+            {% endfor %}
+        </div>
+        
+        <div class="ratings__sidebar">
+            <div class="ratings__form category__container ">
+                <h4 class="category__title">Write Your Review</h4>
+    
+                <form method="post" action=".">
+                    {% csrf_token %}
+    
+                    <div class="form-group">
+                        <div class="control">
+                            <textarea class="textarea" name="content"></textarea>
+                        </div>
+                    </div>
+                    <p class="text-uppercase font-weight-bold">Your Rating:</p>
+                    <div class="rating">
+                         <div class="form-group"> 
+                            <label>
+                                <input type="radio" name="stars" value="1" />
+                                <span class="fa fa-star icon"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="stars" value="2" />
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="stars" value="3" />
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="stars" value="4" />
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                            </label>
+                            <label>
+                                <input type="radio" name="stars" value="5" />
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                                <span class="fa fa-star icon"></span>
+                            </label>
+                         </div> 
+                    </div>
+                    <br>
+                    {% if request.user.is_authenticated %}
+                    <div class="form-group">
+    
+                        <div class="control">
+                            <button class="main__button">Submit</button>
+                        </div>
+    
+                    </div>
+    
+                    {% else %}
+                    <br>
+                    <a class="main__button" href="{% url 'login' %}">Login In</a>
+                    <br>
+                    <p>Please sign in to add review!</p>
+                    
+                    {% endif %}
+                </form>
+    
+                </form>
+            </div>
+            <div class="ratings__form category__container ">
+                <h4 class="category__title">Ratings</h4>
+    
+                <div class="ratings__details">
+                    <div class="ratings__metrics">
+                        <a>4.8</a><i class="fa fa-clock"></i> 
+                        
+                            <div class="product-rating">
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star"></i>
+                                <i class="fas fa-star-half-alt"></i>
+                
+                                <span>{% if product.get_rating == 0 %}No ratings yet{% else %}{{ product.get_rating|floatformat:1 }}{% endif %}</span>
+                            </div>
+                       
+                    </div>
+                    
+                    <div class="review__body">
+                        <label class="review__progress" for="file">5 Star</label>
+                        <progress id="star__5" value="58" max="100"> 58% </progress> <br>
+                        <label class="review__progress" for="file">4 Star</label>
+                        <progress id="star__4" value="80" max="100"> 80% </progress> <br>
+                        <label class="review__progress" for="file">3 Star</label>
+                        <progress id="star__3" value="36" max="100"> 36% </progress> <br>
+                        <label class="review__progress" for="file">2 Star</label>
+                        <progress id="star__2" value="46" max="100"> 46% </progress> <br>
+                        <label class="review__progress" for="file">1 Star</label>
+                        <progress id="star__1" value="10" max="100"> 10% </progress> <br>
+                       
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+{% endblock %}

@@ -1,0 +1,119 @@
+
+
+{% extends 'base.html' %}
+
+{% block title %}Vendor admin | {% endblock %}
+
+{% block content %}
+<section class="accessory section bd-container" id="accessory">
+    <div class="category__container   main__container vendor__admin">
+        <div class="vendor__box">
+            <h1 class="title">{{ vendor.user.username }}</h1>
+            <strong>Paid Amount: </strong>${{ vendor.get_paid_amount }}<br>
+            <strong>Balance: </strong>${{ vendor.get_balance }}
+            
+    
+            <hr>
+    
+            <a href="{% url 'vendors:edit_vendor' %}" class="alt__button">Edit</a>
+            <a href="{% url 'logout' %}" class="alt__button">Log out</a>
+        </div>
+    
+        <div class="vendor__box">
+            <h2 class="is-size-3 mb-4">My products</h2>
+    
+            <a href="{% url 'vendors:add_product' %}" class="main__button mb-5">Add product</a>
+    
+            {% if products %}
+                <table class="table is-fullwidth">
+                    <thead>
+                        <tr>
+                            <th>Image</th>
+                            <th>Name</th>
+                            <th>Size</th>
+                            <th>Color</th>
+                            <th>In Stock</th>
+                            <th>Price</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+    
+                    <tbody>
+                        {% for product in products %}
+                            <tr>
+                                <td><img src="{{ product.image.url }}" alt="" class="vendor__admin__img"></a></td>
+                                <td><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.name }}</a></td>
+                                <td><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.size }}</a></td>
+                                <td><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.color }}</a></td>
+                                <td><a href="{% url 'product_detail' product.category.slug product.slug %}">{{ product.stock }}</a></td>
+                                <td>${{ product.price }}</td>
+                                <td><a class="alt__button" href="{% url 'vendors:edit_product' product.id %}">Edit</a></td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            {% else %}
+                <p>You don't have any products yet...</p>
+            {% endif %}
+        </div>
+        
+        <hr>
+           
+        <div class="vendor__box">
+            <h2 class="is-size-3 mb-4">My orders</h2>
+        
+            {% if orders %}
+                {% for order in orders %}
+                    <div class="{% if order.fully_paid %}has-background-success-light{% else %}has-background-info-light{% endif %} mb-2 p-4">
+                        <div class="columns is-multiline">
+                            <div class="column is-6">
+                                <h3 class="is-size-4">#{{ order.id }}</h3>
+                            </div>
+        
+                            <div class="column is-12">
+                                <b>Name:</b> {{ order.first_name }} {{ order.last_name }}<br>
+                                <b>Address:</b> {{ order.address }}<br>
+                                <b>Eircode and place:</b> {{ order.eircode }} {{ order.place }}<br>
+                                <b>E-mail:</b> {{ order.emailAddress }}<br>
+                                <b>Phone:</b> {{ order.phone }}
+        
+                                <table class="table is-fullwidth mt-4">
+                                    <thead>
+                                        <tr>
+                                            <th>Title</th>
+                                            <th>Price</th>
+                                            <th>Quantity</th>
+                                            <th>Paid</th>
+                                            <th>Total</th>
+                                        </tr>
+                                    </thead>
+        
+                                    <tbody>
+                                        {% for item in order.items.all %}
+                                            {% if item.vendor == request.user.vendor %}
+                                                <tr>
+                                                    <td>{{ item.product.name }}</td>
+                                                    <td>${{ item.product.price }}</td>
+                                                    <td>{{ item.quantity }}</td>
+                                                    <td>{{ item.vendor_paid|yesno:"Yes,No" }}</td>
+                                                    <td>${{ item.price }}</td>
+                                                </tr>
+                                            {% endif %}
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                {% endfor %}
+            {% endif %}
+        </div>
+    </div>
+    
+    </section>
+
+
+    
+{% endblock %}
+
+

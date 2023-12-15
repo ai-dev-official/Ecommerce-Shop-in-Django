@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+{% load static %}
+{% block metadescription %} We have high quality wears in stock {% endblock %}
+{% block title %} Search The Clothing Store {% endblock %}
+{% block content %}
+<section class="accessory section bd-container" id="accessory">
+    <div class="category__container   main__container container__grid">
+      
+<div>
+    <p class="text-center my_search_text">You searched for <b>"{{ query }}"</b></p>
+</div>
+<div class="container">
+    <div class="row mx-auto">
+        {% for p in product_list %}
+
+        <div class="accessory__content">
+            {% if p.image %}
+            <a href="{{p.get_absolute_url}}"><img class="accessory__img" src="{{p.image.url}}"
+                alt="{{p.name}}"></a> 
+            {% else %}
+            <img src="./static/images/girl.webp" alt="" class="accessory__img">
+    
+            {% endif %}
+           <div class="details">
+            <h4 class="accessory__title"><a href="{% url 'product_detail' p.category.slug p.slug %}">{{ p.name|truncatechars:17 }}</a> </h4>
+            <span class="accessory__preci">${{ p.price }}</span>
+           
+            <a href="{% url 'accounts:user_wishlist' p.id %} " class="main__button accessory__button1"><i class='bx bx-heart'></i></a>
+            <a href="{% url 'cart:add_cart' p.id %} " class="main__button accessory__button2"><i class='bx bx-shopping-bag'></i></a>
+           </div>
+        </div>
+
+
+        
+        {% empty %}
+        <div class="row mx-auto">
+            <p class="text-center my_search_text">0 results found.</p>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+    </div>
+    </section>
+{% endblock %}

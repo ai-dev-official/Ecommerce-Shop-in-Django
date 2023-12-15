@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category.name }} | {% endblock %}
+
+{% block content %}
+    <nav class="breadcrumb" aria-label="breadcrumbs">
+        <ul class="bread">
+            <li><a href="/">Home</a></li><span>&#x22D9;</span>
+            {% if category.parent %}
+                <li><a href="{% url 'category_detail' category.parent.slug %}">{{ category.parent.name }} <span>&#x22D9;</span></a></li>
+            {% endif %}
+            <li class="is-active"><a href="{% url 'category_detail' category.slug %}">{{ category.name }} <span>&#x22D9;</span></a></li>
+        </ul>
+    </nav>
+
+
+    <section class="accessory section main__container" id="accessory">
+        <h2 class="section-title">{{ category.name }}<span> Category</span></h2>
+        
+        {% if category.children.all %}
+        <div class="accessory__container main__grid">
+            {% for subcategory in category.children.all %}
+            <div class="accessory__content dcol">
+                <img src="./.././static/images/woman.webp" alt="" class="accessory__img">
+                <div class="dcol__description">
+                <h3 class="accessory__title">{{ subcategory.name }}</h3>
+                <a href="{% url 'category_detail' subcategory.slug %}">View products</a>
+                </div>
+                
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        {% with products as list_products %}
+            {% include 'parts/product_list.html' %}
+        {% endwith %}
+    {% endif %}
+    </section>
+{% endblock %}

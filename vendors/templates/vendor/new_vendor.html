@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block title %} Vendor Page {% endblock %}
+
+{% block content %}
+
+{% load crispy_forms_tags %}
+   
+
+
+<section class="accessory section bd-container" id="accessory">
+    <div class="category__container   main__container container__grid">
+
+        <h2 class="my-5 text-center"> New Vendor Page</h2>  
+
+    <div class="main__form">
+        
+
+
+<form method="POST" enctype="multipart/form-data" class="signup_form mr-2 ml-2">
+  {% csrf_token %}
+  <fieldset>
+    <div class="form-row">
+     
+      <div class="form-group col-md-12 mb-0">
+        {{ form.account_name | as_crispy_field }}
+      </div>
+    </div>
+    <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          {{ form.bank_IBAN | as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          {{ form.bank_name | as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          {{ form.bank_bic | as_crispy_field }}
+        </div>
+        <div class="form-group col-md-6 mb-0">
+          {{ form.county | as_crispy_field }}
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group col-md-6 mb-0">
+          {{ form.gender | as_crispy_field }}
+        </div>
+        
+      </div>
+  </fieldset>
+  <button type="submit" class="main__button">Sign Up</button>
+    <div class="text-center">
+        <p>Already a Vendor? <a href="{% url 'login' %}">Login In</a></p>
+    </div>
+</form>
+    </div>
+</div>
+  </section>
+
+{% endblock content %}

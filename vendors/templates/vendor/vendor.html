@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ vendor.name }} | {% endblock %}
+
+{% block content %}
+
+<section class="accessory section bd-container" id="accessory">
+    <div class="category__container   main__container container__grid">
+        <div class="columns is-multiline mb-6">
+            <div class="column is-12 has-text-centered mt-6 mb-6">
+                <h2 class="is-size-3">{{ vendor.name }}</h2>
+            </div>
+    
+            {% for product in vendor.products.all %}
+                {% include 'parts/product_list.html' %}
+            {% endfor %}
+        </div>
+    </div>
+    </section>
+    
+{% endblock %}

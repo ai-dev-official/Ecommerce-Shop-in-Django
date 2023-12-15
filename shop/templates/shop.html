@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}The Clothing Shop | Shop Page {% endblock %}
+
+{% block content %}
+
+
+<section class="section  main__container">
+    <div class="small_container">
+        <!--         SORTING-SELECTOR           -->
+       <div class="all__products">
+           <h2 class="section-title">All Products</h2>
+           <select name="#">
+               <option value="">Default Sorting</option>
+               <option value="">Sort by price</option>
+               <option value="">Sort by popularity</option>
+               <option value="">Sort by rating</option>
+               <option value="">Sort by Sale</option>
+           </select>
+       </div>
+
+</section>
+
+<section class="accessory section bd-container" id="accessory">
+    <div class="main__container container__grid ">
+        <div class="row">
+           
+            <div class="accessory__container container__grid shop__container">
+                {% for p in products %}
+                <div class="accessory__content">
+                    
+                        {% if p.image %}
+                        <img src="{{ p.image.url}}" alt="" class="accessory__img">
+                        {% else %}
+                        <img src="./static/images/girl.webp" alt="" class="accessory__img">
+
+                        {% endif %}
+                    <div class="details">
+                            <h4 class="accessory__title"><a href="{% url 'product_detail' p.category.slug p.slug %}">{{ p.name|truncatechars:17 }}</a> </h4>
+                            <span class="accessory__preci">${{ p.price }}</span>
+                            <a href="{% url 'accounts:user_wishlist' p.id %}" class="main__button accessory__button1"><i class='bx bx-heart'></i></a>
+                            <a href="{% url 'cart:add_cart' p.id %} " class="main__button accessory__button2"><i class='bx bx-shopping-bag'></i></a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div> 
+        </div>
+        
+               
+<div class="pagination__container product__quantity">
+    {% if products.paginator.num_pages > 1 %}
+   
+        <div class="pagination_button">
+            {% for pg in products.paginator.page_range %}
+                <a href="?page={{pg}}" class="main__button {% if products.number == pg %}active{% endif %}">{{pg}}</a>
+            {% endfor %}
+        </div>
+    {% endif %}
+</div>
+      
+    </div>
+ </section>
+
+
+
+
+ <!--========== EXPLORE ==========-->
+<section class=" section">
+    <div class="subscribe__container explore__container main__container container__grid">
+        <div class="explore__content">
+            <h2 class="section-title-center subscribe__title">Own an online shop <br>fully customized for you <br>and
+                pay a
+                token for sales</h2>
+            <a href="#" class="main__button">Shop Now &#8594;</a>
+        </div>
+
+        <div class="explore">
+
+        </div>
+    </div>
+</section>
+
+ {% endblock content %}
